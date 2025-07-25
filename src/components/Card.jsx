@@ -1,43 +1,49 @@
-import React from 'react'
+import React from "react";
 
-const Card = ({ data }) => {
-  console.log(data);
+const Card = ({ data, searchTerm = "" }) => {
+  const readMore = (url) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
-   const readMore = (url) => {
-     window.open(url);
-   }
-  
- 
   return (
     <div className="cardContainer">
-      
-      {data.map((item, index) => {
-        if (!item.urlToImage) {
-          return null
-        } else {
-          return (
-            <div className="card" key={index}>
-              <img src={item.urlToImage} alt="news" />
-              <div className="cardContent">
-                <a className="title" onClick={() => readMore(item.url)}>
-                  {item.title}
-                </a>
-                <p>{item.description}</p>
-                <button
-                  onClick={() => readMore(item.url)}
-                  className="readMoreBtn"
-                >
-                  Read more
-                </button>
-              </div>
-            </div>
-          );
-          
-        }
-          
-  })}
+      {Array.isArray(data) && data.length > 0 ? (
+  data.map((item, index) => (
+    item.urlToImage ? (
+      <div className="card" key={index}>
+        <img
+          src={item.urlToImage}
+          alt="news"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
+          }}
+        />
+        <div className="cardContent">
+          <a
+            className="title"
+            href={item.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {item.title}
+          </a>
+          <p>{item.description || "No description available."}</p>
+          <button
+            onClick={() => window.open(item.url, "_blank")}
+            className="readMoreBtn"
+          >
+            Read more
+          </button>
+        </div>
+      </div>
+    ) : null
+  ))
+) : (
+  <p>No news found.</p>
+)}
     </div>
   );
-}
+};
 
 export default Card;
