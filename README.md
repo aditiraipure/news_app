@@ -59,6 +59,3 @@ DailyNews/
 - Dark mode support  
 - Personalized news recommendations  
 
-
-
-⭐ If you like this project, feel free to give it a star!
